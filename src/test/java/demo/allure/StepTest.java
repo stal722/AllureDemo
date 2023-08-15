@@ -39,12 +39,20 @@ public class StepTest {
         });
 
         step("Проверяем, что существует ISSUE c номером " + ISSUE, () -> {
-            $(withText("#81")).should(Condition.exist);
+            $(withText("#" + ISSUE)).should(Condition.exist);
         } );
+    }
 
+    @Test
+    public void testAnnotatedStep() {
+        SelenideLogger.addListener("allure", new AllureSelenide());
+        WebSteps steps = new WebSteps();
 
-
-
+        steps.openMainPage();
+        steps.searchForRepository(REPOSITORY);
+        steps.clickOnRepositoryLink(REPOSITORY);
+        steps.openIssueTab();
+        steps.shouldSeeIssueWithNumber(ISSUE);
     }
 
 }
